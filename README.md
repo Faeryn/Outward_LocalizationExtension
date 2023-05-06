@@ -17,6 +17,7 @@ The files should be in the following format: `languagekey_type.ext`, where
 * **languagekey** is one of the game's supported languages: `English, French, German, Italian, Spanish, zeChinese, zeJapanese, zeKorean, zePolish, zePortuguese, zeRussian, zeTurkish`
 * **type** is a letter for the localization type: `g, i, d` - General, Item, Dialogue. Note: Currently only `g` aka. General is supported.  
 * **ext** is the extension, currently only `cfg` is supported.
+
 Example:
 ```
 MyMod.zip
@@ -45,6 +46,8 @@ Or with parameters:
 ```
 LocalizationManager.Instance.GetLoc($"{YourMod.GUID}.some.key.with_parameter", "param1", "param2");
 ```
+In case you don't provide a language file for each language, you should also add a file named `default.txt` into the `lang` folder
+containing the name of your fallback language (which will be used for unsupported languages). Default is `English` if the file is missing.
 
 ### For everyone else
 If you are not a mod developer, you can most likely ignore this mod.  
@@ -53,6 +56,7 @@ in which case download this mod and put it into your BepInEx plugins folder.
 
 ## Planned features
 - Support for Dialog and Item localization
+- Support for json and xml language file formats
 - Support for SideLoader mods
 
 ## Changelog
