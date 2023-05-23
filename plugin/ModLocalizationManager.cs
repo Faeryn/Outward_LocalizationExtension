@@ -48,6 +48,9 @@ namespace LocalizationExtension {
 			}
 			LocalizationExtension.Log.LogInfo($"{modPrefix}: Loading general localization cfg: {file}");
 			foreach (string line in File.ReadLines(file)) {
+				if (line.StartsWith("#") || !line.Contains("=")) {
+					continue;
+				}
 				string[] split = line.Split(new []{'='}, 2);
 				generalLocalization.Add(modPrefix + "." + split[0], split[1]);
 			}
