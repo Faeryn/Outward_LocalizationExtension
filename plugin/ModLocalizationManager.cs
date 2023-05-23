@@ -31,6 +31,15 @@ namespace LocalizationExtension {
 			return File.ReadAllText(filePath).Trim();
 		}
 
+		void AddGeneralLocalization(IDictionary<string, string> generalLocalization, string modPrefix, string key, string value) {
+			if (key.StartsWith("/")) {
+				key = key.Substring(1);
+			} else {
+				key = modPrefix + "." + key;
+			}
+			generalLocalization.Add(key, value);
+		}
+
 		bool TryLoadLanguageFiles(string modPath, string language, string modPrefix, IDictionary<string, string> generalLocalization) {
 			string basePath = Path.Combine(modPath, "lang", language + "_g");
 			if (TryLoadCfg(basePath + ".cfg", modPrefix, generalLocalization)) {
@@ -52,7 +61,7 @@ namespace LocalizationExtension {
 					continue;
 				}
 				string[] split = line.Split(new []{'='}, 2);
-				generalLocalization.Add(modPrefix + "." + split[0], split[1]);
+				AddGeneralLocalization(generalLocalization, modPrefix, split[0], split[1]);
 			}
 			return true;
 		}
