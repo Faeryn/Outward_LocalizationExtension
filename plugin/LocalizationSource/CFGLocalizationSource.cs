@@ -22,18 +22,19 @@ public class CFGLocalizationSource : FileLocalizationSource {
 				continue;
 			}
 			string[] split = line.Split(new []{'='}, 2);
-			string key = split[0].ToLower();
+			string key = split[0];
+			string keyL = key.ToLower();
 			string value = split[1];
 			
 			// Dialogue
-			if (key.StartsWith("/dialogue/")) {
+			if (keyL.StartsWith("/dialogue/")) {
 				// TODO Dialogue localization
 				continue;
 			}
 		
 			// Item
-			if (key.StartsWith("/item/")) {
-				ProcessItem(key, value, localization, items);
+			if (keyL.StartsWith("/item/")) {
+				ProcessItem(keyL, value, localization, items);
 				continue;
 			}
 
