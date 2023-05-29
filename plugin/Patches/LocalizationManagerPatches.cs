@@ -1,13 +1,11 @@
-using System;
-using System.Linq;
 using HarmonyLib;
 
-namespace LocalizationExtension.Patches {
-	[HarmonyPatch(typeof(LocalizationManager))]
-	public static class LocalizationManagerPatches {
-		[HarmonyPatch(nameof(LocalizationManager.LoadGeneralLocalization)), HarmonyPrefix]
-		private static void LocalizationManager_LoadGeneralLocalization_Postfix(LocalizationManager __instance) {
-			LocalizationExtension.Instance.ModLocalizationManager.InjectGeneralLocalization(__instance.m_generalLocalization, __instance.CurrentLanguageDefaultName);
-		}
+namespace LocalizationExtension.Patches; 
+
+[HarmonyPatch(typeof(LocalizationManager))]
+public static class LocalizationManagerPatches {
+	[HarmonyPatch(nameof(LocalizationManager.StartLoading)), HarmonyFinalizer]
+	private static void LocalizationManager_StartLoading_Finalizer(LocalizationManager __instance) {
+		LocalizationExtension.Instance.ModLocalizationManager.InjectLocalization(__instance, __instance.CurrentLanguageDefaultName);
 	}
 }

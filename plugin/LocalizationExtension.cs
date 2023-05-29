@@ -3,6 +3,7 @@ using BepInEx.Logging;
 using HarmonyLib;
 
 namespace LocalizationExtension {
+	[BepInDependency("com.sinai.SideLoader", BepInDependency.DependencyFlags.SoftDependency)]
 	[BepInPlugin(GUID, NAME, VERSION)]
 	public class LocalizationExtension : BaseUnityPlugin {
 		public const string GUID = "faeryn.localizationextension";
