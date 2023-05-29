@@ -18,7 +18,7 @@ Example:
 ```
 "dependencies": [
     "BepInEx-BepInExPack_Outward-5.4.18",
-    "Faeryn-LocalizationExtension-1.1.0"
+    "Faeryn-LocalizationExtension-1.1.1"
 ]
 ```
 Add one or more language files to your mod's `lang` folder (you will have to create it).  
@@ -59,13 +59,13 @@ LocalizationManager.Instance.GetLoc($"{YourMod.GUID}.some.key.with_parameter", "
 In case you don't provide a language file for each language, you should also add a file named `default.txt` into the `lang` folder
 containing the name of your fallback language (which will be used for unsupported languages). Default is `English` if the file is missing.
 
-### Items
-For item localization, the key should be in the following format:
+### Items and skills
+For item and skill localization, the key should be in the following format:
 ```
 /item/[itemID]/name
 /item/[itemID]/description
 ```
-Where `[itemID]` is the ID of the item in question. Note that this will override the name and description specified in the SideLoader item definition.  
+Where `[itemID]` is the ID of the item or skill in question. Note that this will override the name and description specified in the SideLoader item definition.  
 Example:
 ```
 /item/-1234567/name=Example Item
@@ -86,6 +86,20 @@ Example:
 /DESC_Enchantment_-1234567=This is an example enchantment
 ```
 
+### Status effects
+Status effects added by SideLoader require the following key format:
+```
+/NAME_[StatusIdentifier]
+/DESC_[StatusIdentifier]
+```
+Where `[StatusIdentifier]` is the `StatusIdentifier` of the status effect in question (defined in the `TargetStatusIdentifier` field). Note that this will override the name and description specified in the SideLoader status effect definition.
+
+Example:
+```
+/NAME_ExampleStatusEffect=Example Status Effect
+/DESC_ExampleStatusEffect=A good example
+```
+
 ### Overriding built-in localization entries
 By default, **general** localization entries are prefixed by mod GUID. If you, for some reason, need to override existing entries, 
 then the `/` prefix can be used. For example:
@@ -93,7 +107,7 @@ then the `/` prefix can be used. For example:
 /examplekey
 ```
 This will override the general localization entry `examplekey`.  
-*Note: Currently this works reliably only for vanilla Outward entries. Overriding other mods' entries may or may not work.*
+*Note: Currently this works reliably only for vanilla Outward entries, unless noted. Overriding other mods' entries may or may not work.*
 
 ### Localization of other mods
 It is possible to localize other SideLoader mods that do not use LocalizationExtension. Only **items** and **enchantments** can be localized this way,
@@ -117,7 +131,7 @@ In the manifest file include the original mod too, as dependency:
 ```
 "dependencies": [
     "BepInEx-BepInExPack_Outward-5.4.18",
-    "Faeryn-LocalizationExtension-1.1.0",
+    "Faeryn-LocalizationExtension-1.1.1",
     "OtheMod-OtherAuthor-1.0.0"
 ]
 ```
@@ -132,6 +146,9 @@ and making sure the description is clear about the fact that this is only a loca
 - Ability to localize mods by direct text matching
 
 ## Changelog
+
+### 1.1.1
+- Fix for vanilla overrides
 
 ### 1.1.0
 - Item localization

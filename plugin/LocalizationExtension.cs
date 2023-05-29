@@ -10,7 +10,7 @@ namespace LocalizationExtension {
 	public class LocalizationExtension : BaseUnityPlugin {
 		public const string GUID = "faeryn.localizationextension";
 		public const string NAME = "LocalizationExtension";
-		public const string VERSION = "1.1.0";
+		public const string VERSION = "1.1.1";
 		public const string SIDELOADER_GUID = "com.sinai.SideLoader";
 		internal static ManualLogSource Log;
 		internal static LocalizationExtension Instance;
