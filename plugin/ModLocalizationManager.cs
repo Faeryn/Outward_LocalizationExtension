@@ -12,7 +12,8 @@ namespace LocalizationExtension {
 
 		private ModListManager modListManager = new ModListManager();
 
-		internal void InjectLocalization(LocalizationManager localizationManager, string language) {
+		internal void InjectLocalization(LocalizationManager localizationManager) {
+			string language = localizationManager.CurrentLanguageDefaultName;
 			foreach (ModInfo modInfo in modListManager.ModList) {
 				if (!modInfo.IsLocal || modInfo.GUID == null || !Directory.Exists(Path.Combine(modInfo.LocalPath, "lang"))) {
 					continue;

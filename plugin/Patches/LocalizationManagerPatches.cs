@@ -6,6 +6,6 @@ namespace LocalizationExtension.Patches;
 public static class LocalizationManagerPatches {
 	[HarmonyPatch(nameof(LocalizationManager.StartLoading)), HarmonyFinalizer]
 	private static void LocalizationManager_StartLoading_Finalizer(LocalizationManager __instance) {
-		LocalizationExtension.Instance.ModLocalizationManager.InjectLocalization(__instance, __instance.CurrentLanguageDefaultName);
+		LocalizationExtension.Instance.ModLocalizationManager.InjectLocalization(__instance);
 	}
 }
