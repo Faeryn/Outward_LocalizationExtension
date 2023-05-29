@@ -1,9 +1,9 @@
 {
     "name": "LocalizationExtension",
     "author": "Faeryn",
-    "version_number": "1.0.0",
+    "version_number": "1.1.0",
     "website_url": "https://github.com/Faeryn/Outward_LocalizationExtension",
-    "description": "Allows modders to provide localization for their mods using the game's localization system.",
+    "description": "Allows modders to provide localization for their mods using the game's localization system, and also to localize other mods without changing them.",
     "dependencies": [
         "BepInEx-BepInExPack_Outward-5.4.18"
     ]
