@@ -18,7 +18,7 @@ Example:
 ```
 "dependencies": [
     "BepInEx-BepInExPack_Outward-5.4.18",
-    "Faeryn-LocalizationExtension-1.1.1"
+    "Faeryn-LocalizationExtension-1.1.2"
 ]
 ```
 Add one or more language files to your mod's `lang` folder (you will have to create it).  
@@ -44,9 +44,13 @@ The contents of a cfg file is a list of key-value pairs separated by `=`. Keys a
 some.key=Some Value
 some.key.with_parameter=Some Key With {1} Parameter {2}
 ```
-Empty lines and lines starting with `#` or `;` are ignored so you can also add comments.
-
 *Note: Parameter numbering starts from 1, not 0.  *
+
+Empty lines and lines starting with `#` or `;` are ignored so you can also add comments.  
+The cfg format doesn't allow newlines (each line is a single entry), therefore if you want to add newlines, you will have to use \n, like so:
+```
+some.key.with_newline=This is the first line\nThis is the second line\n\nThird line is empty, this is the fourth
+```
 
 Then you can use the game's localization manager for texts in your mod, like so:
 ```
@@ -110,7 +114,7 @@ This will override the general localization entry `examplekey`.
 *Note: Currently this works reliably only for vanilla Outward entries, unless noted. Overriding other mods' entries may or may not work.*
 
 ### Localization of other mods
-It is possible to localize other SideLoader mods that do not use LocalizationExtension. Only **items** and **enchantments** can be localized this way,
+It is possible to localize other SideLoader mods that do not use LocalizationExtension. Only **items/skills**, **effects** and **enchantments** can be localized this way,
 using the aforementioned override mechanism.  
 If the target mod uses LocalizationExtension, then the additional languages will be added seamlessly. Trying to override existing 
 languages (for example the original mod has German language support, and you are also adding a German language file) may or may not work.
@@ -131,7 +135,7 @@ In the manifest file include the original mod too, as dependency:
 ```
 "dependencies": [
     "BepInEx-BepInExPack_Outward-5.4.18",
-    "Faeryn-LocalizationExtension-1.1.1",
+    "Faeryn-LocalizationExtension-1.1.2",
     "OtheMod-OtherAuthor-1.0.0"
 ]
 ```
@@ -140,12 +144,18 @@ This way your mod will be compatible with the original mod even as new versions 
 *Note: It's a good idea to distinguish your localization mod from the original, for example by adding your language suffix to the name "OtherMod_SP",
 and making sure the description is clear about the fact that this is only a localization patch, NOT the full mod.*
 
+Example mod: https://github.com/Faeryn/Outward_LocalizationExampleMod
+
 ## Planned features
 - Support for Dialog localization
 - Support for json and xml language file formats
 - Ability to localize mods by direct text matching
 
 ## Changelog
+
+### 1.1.2
+- Allow newlines in single-line localized text
+- Non-BepInEx mods are also scanned for language files. Note that they need a Thunderstore manifest present for this feature to work.
 
 ### 1.1.1
 - Fix for vanilla overrides
