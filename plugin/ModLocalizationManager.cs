@@ -15,16 +15,18 @@ namespace LocalizationExtension {
 		internal void InjectLocalization(LocalizationManager localizationManager) {
 			string language = localizationManager.CurrentLanguageDefaultName;
 			foreach (ModInfo modInfo in modListManager.ModList) {
-				if (!modInfo.IsLocal || modInfo.GUID == null || !Directory.Exists(Path.Combine(modInfo.LocalPath, "lang"))) {
+				if (!modInfo.IsLocal || !Directory.Exists(Path.Combine(modInfo.LocalPath, "lang"))) {
 					continue;
 				}
 
+				string modName = modInfo.GUID ?? modInfo.Name;
+				
 				Localization localization;
 				bool loaded;
-				
+
 				if (!(loaded = TryLoadLanguageFile(modInfo.LocalPath, language, out localization))) {
 					string fallbackLanguage = GetFallbackLanguage(modInfo.LocalPath);
-					LocalizationExtension.Log.LogInfo($"{modInfo.GUID}: Language {language} not supported, using fallback language: {fallbackLanguage}");
+					LocalizationExtension.Log.LogInfo($"{modName}: Language {language} not supported, using fallback language: {fallbackLanguage}");
 					loaded = TryLoadLanguageFile(modInfo.LocalPath, fallbackLanguage, out localization);
 				}
 
@@ -33,11 +35,11 @@ namespace LocalizationExtension {
 				}
 
 				// General
-				LocalizationExtension.Log.LogInfo($"Loading {localization.General.Count} general localization entries");
+				LocalizationExtension.Log.LogInfo($"{modName}: Loading {localization.General.Count} general localization entries");
 				localization.General.ForEach(generalLoc => AddGeneralLocalization(localizationManager.m_generalLocalization, modInfo.GUID, generalLoc));
 				
 				// Item
-				LocalizationExtension.Log.LogInfo($"Loading {localization.Item.Count} item localization entries");
+				LocalizationExtension.Log.LogInfo($"{modName}: Loading {localization.Item.Count} item localization entries");
 				localization.Item.ForEach(itemLoc => AddItemLocalization(localizationManager.m_itemLocalization, itemLoc));
 				
 				// Dialogue
@@ -60,7 +62,7 @@ namespace LocalizationExtension {
 
 		void AddGeneralLocalization(IDictionary<string, string> generalLocalization, string modPrefix, General general) {
 			string key = general.Key;
-			if (key.StartsWith("/")) {
+			if (key.StartsWith("/") || modPrefix == null) {
 				key = key.Substring(1);
 			} else {
 				key = modPrefix + "." + key;
