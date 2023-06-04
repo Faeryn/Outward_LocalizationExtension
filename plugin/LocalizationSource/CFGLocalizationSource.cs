@@ -24,7 +24,7 @@ public class CFGLocalizationSource : FileLocalizationSource {
 			string[] split = line.Split(new []{'='}, 2);
 			string key = split[0];
 			string keyL = key.ToLower();
-			string value = split[1];
+			string value = ReplaceNewlines(split[1]);
 			
 			// Dialogue
 			if (keyL.StartsWith("/dialogue/")) {
@@ -75,5 +75,8 @@ public class CFGLocalizationSource : FileLocalizationSource {
 			items[itemId] = new Model.Item(itemId, name, description);
 		}
 	}
-	
+
+	private string ReplaceNewlines(string text) {
+		return text.Replace("\\n", "\n"); // TODO Ability to escape backslash
+	}
 }
