@@ -40,14 +40,30 @@ namespace LocalizationExtension {
 				
 				// Item
 				LocalizationExtension.Log.LogInfo($"{modName}: Loading {localization.Item.Count} item localization entries");
-				localization.Item.ForEach(itemLoc => AddItemLocalization(localizationManager.m_itemLocalization, itemLoc));
+				localization.Item.ForEach(itemLoc => {
+					AddItemLocalization(localizationManager.m_itemLocalization, itemLoc);
+					// Workaround for SideLoader's "forced" item name and description.
+					// By resetting the item, it will automatically pull the values from the localization dict.
+					ResetItemNameAndDescription(itemLoc.ItemID);
+				});
 				
 				// Dialogue
 				// TODO Dialogue localization
 			}
 		}
 
-		string GetFallbackLanguage(string modPath) {
+		private void ResetItemNameAndDescription(int itemId) {
+			Item item = ResourcesPrefabManager.Instance.GetItemPrefab(itemId);
+			if (item == null) {
+				return;
+			}
+			item.m_localizedName = null;
+			item.m_lastNameLang = "";
+			item.m_localizedDescription = null;
+			item.m_lastDescLang = "";
+		}
+
+		private string GetFallbackLanguage(string modPath) {
 			string filePath = Path.Combine(modPath, "lang", "default.txt");
 			if (!File.Exists(filePath)) {
 				return DEFAULT_LANGUAGE;
@@ -55,12 +71,12 @@ namespace LocalizationExtension {
 			return File.ReadAllText(filePath).Trim();
 		}
 
-		void AddItemLocalization(IDictionary<int, ItemLocalization> itemLocalization, Model.Item item) {
+		private void AddItemLocalization(IDictionary<int, ItemLocalization> itemLocalization, Model.Item item) {
 			itemLocalization[item.ItemID] = new ItemLocalization(item.Name, item.Description);
 			LocalizationExtension.Log.LogDebug($"{item.ItemID}: name='{item.Name}', description='{item.Description}'");
 		}
 
-		void AddGeneralLocalization(IDictionary<string, string> generalLocalization, string modPrefix, General general) {
+		private void AddGeneralLocalization(IDictionary<string, string> generalLocalization, string modPrefix, General general) {
 			string key = general.Key;
 			if (key.StartsWith("/") || modPrefix == null) {
 				key = key.Substring(1);
@@ -71,7 +87,7 @@ namespace LocalizationExtension {
 			LocalizationExtension.Log.LogDebug($"'{key}'='{general.Value}'");
 		}
 
-		bool TryLoadLanguageFile(string modPath, string language, out Localization localization) {
+		private bool TryLoadLanguageFile(string modPath, string language, out Localization localization) {
 			string basePath = Path.Combine(modPath, "lang", language);
 			if (new CFGLocalizationSource(basePath + ".cfg").TryGetLocalization(out localization)) {
 				return true;
