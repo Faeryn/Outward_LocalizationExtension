@@ -18,7 +18,7 @@ Example:
 ```
 "dependencies": [
     "BepInEx-BepInExPack_Outward-5.4.18",
-    "Faeryn-LocalizationExtension-1.1.2"
+    "Faeryn-LocalizationExtension-1.1.3"
 ]
 ```
 Add one or more language files to your mod's `lang` folder (you will have to create it).  
@@ -135,7 +135,7 @@ In the manifest file include the original mod too, as dependency:
 ```
 "dependencies": [
     "BepInEx-BepInExPack_Outward-5.4.18",
-    "Faeryn-LocalizationExtension-1.1.2",
+    "Faeryn-LocalizationExtension-1.1.3",
     "OtheMod-OtherAuthor-1.0.0"
 ]
 ```
@@ -152,6 +152,9 @@ Example mod: https://github.com/Faeryn/Outward_LocalizationExampleMod
 - Ability to localize mods by direct text matching
 
 ## Changelog
+
+### 1.1.3
+- Custom items and skills (using SideLoader) should now have their localized values everywhere (incl. trainer skill trees)
 
 ### 1.1.2
 - Allow newlines in single-line localized text
